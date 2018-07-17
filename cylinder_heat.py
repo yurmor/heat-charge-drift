@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import time
 
 """
---isolated boundary conditions
 --check r=0 
 
 """
@@ -13,10 +12,10 @@ import time
 Here is an example of solving heat diffusion equation on a uniform cylinder in radial coordinates.
 dT/dt = alpha*del^2(T) + heating/(rho*Cp) (https://en.wikipedia.org/wiki/Heat_equation)
 
----Temperature is fixed at the edge. Initial tempearture is uniform.
----Heat is generated within a disk with gaussian distribution.
+--Temperature is fixed at the edge. Initial tempearture is uniform.
+--Heat is generated within a cylinder with gaussian distribution.
 
-Sometimes can be faster to use @jit from Numba, experiment with it
+Sometimes can be faster to use @jit from Numba (before the timestep(u) function)
 """
 
 # input parameters
@@ -30,26 +29,30 @@ h = 1.*10**(-4)          # height of the cylinder, cm
 nr = 512                 # number of the radial slices
 nz = 100                 # number of the z-direction slices
 
-dr = R/nr                # delta r
+dr = R/nr                    # delta r
 dr2 = dr**2
 
-dz = h/nz                # delta z
+dz = h/nz                    # delta z
 dz2 = dz**2
 
-rv = np.arange(nr)*dr # radius values
-zv = np.arange(nz)*dz # z values
+rv = np.arange(nr)*dr        # radius values
+zv = np.arange(nz)*dz        # z values
 
 dt =  dr**2*dz**2/(4*alpha*(dr**2 + dz**2))   # time step, s. in order for solution to be stable, must be smaller than dr**2*dz**2/(2*alpha*(dr**2 + dz**2)) 
+Ndt = 10**4              # number of time steps to calculate the solution for
+Ns  = 100                # store the data once in Ns*dt time 
+Ndata = int(Ndt/Ns)          # number of the time steps to store the data for
 
 T0 = 300                 # initial temperature, K.
 Tside = 300              # boundary condition at the side of the cylinder
 Tbottom = 290            # boundary condition at the bottom surface of the cylinder
 Ttop = 310               # boundary condition at the top surface of the cylinder
 
-u0 = np.ones((nz, nr))*T0  # initial temperature distribution
+u0 = np.ones((nz, nr))*T0    # initial temperature distribution
 
 power = 100*10**(-3)     # total power of the heat source, W
-sigmahs = 5.*10**(-5)    # standard deviation of the heat source distribution, cm
+sigmahs = 0.1*R          # standard deviation of the heat source as a fraction of cylinder radius 
+
 
 # heat source distribution
 #----------------------------------------------------------------------------------------------------------------------------
@@ -83,12 +86,6 @@ def timestep(u):  # calculates next in time temperature distribution based on in
 
 # main loop
 #----------------------------------------------------------------------------------------------------------------------------
-Ndt = 10**4        # number of time steps to calculate the solution for
-Ns  = 100            # store the data once in Ns*dt time 
-Ndata = int(Ndt/Ns)  # number of the time steps to store the data for
-
-m=0
-tol = 1
 temp_center = np.zeros(Ndata)
 u = u0
 
@@ -100,27 +97,32 @@ for i in range(Ndt):
 
 timetaken = time.time() - stime
 
-print u[1,0], u[-2,0]
-
 print "Calculation finished ... " 
 print "time taken = %1.3f"%timetaken, ' seconds'
 print "%1.4e seconds per iteration"%(timetaken/Ndt)
-print "Last simulation time, ", Ndt*dt 
+print "Last simulation time, ", Ndt*dt,  ' seconds'
 
 # plot the results
 #----------------------------------------------------------------------------------------------------------------------------
 times = np.arange(Ndata)*dt*Ns
 
-plt.plot(times, temp_center)
+plt.plot(times*10**6, temp_center)
+plt.xlabel('Time (us)')
+plt.ylabel('Temperature (K)')
 plt.title("Temperature at the center of the cylinder")
 
 plt.figure()
-plt.plot(rv, u[1,:])
-plt.plot(rv, u[nz/2,:])
-plt.plot(rv, u[-2,:])
+plt.plot(rv*10**4, u[1,:], label='bottom slice')
+plt.plot(rv*10**4, u[nz/2,:], label='center slice')
+plt.plot(rv*10**4, u[-2,:], label='top slice')
+plt.xlabel('Radius (um)')
+plt.ylabel('Temperature (K)')
+plt.legend()
 plt.title("Final temperature dstribution ")
 
 
 plt.figure()
-plt.plot(zv, u[:,0])
+plt.plot(zv*10**4, u[:,0])
+plt.xlabel('Height (um)')
+plt.ylabel('Temperature (K)')
 plt.show()
