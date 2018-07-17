@@ -7,14 +7,13 @@ import matplotlib.pyplot as plt
 here solving charge drift-diffusion equations
 for charge carriers in a semiconductor assuming that holes and electrons are the same
 
-dn/dt = G - R + Dce*d^2(n)/dx^2 + 1/e*d(-e*mue*E)/dx
+dn/dt = G - R + Dce*d^2(n)/dx^2 
 
 working in radial coordinates, over a disk with radius R
-chrage distribution along z-direction is uniform 
+charge distribution along z-direction is uniform 
 
-n is the chrage density (1/cm^3) 
+n is the charge density (1/cm^3) 
 R = An + Bn^2 + C*n^3, recombination (1/(s*cm^3))
-E - electric field (V/cm)
 
 A - nonradiative recombiniation rate, 
 B - bimolecular radiative recombination rate,

@@ -1,9 +1,10 @@
 import numpy as np
 import time 
+import matplotlib.pyplot as plt
 
 """
 here solving dn/dt = G-R 
-where n is chrage density (1/cm^3) 
+where n is charge density (1/cm^3) 
 R = An + Bn^2 + Cn^3, recombination (1/(s*cm^3))
 
 A - nonradiative recombiniation rate, 
@@ -59,9 +60,9 @@ print "Last electron concentratino = ", nlast, " 1/cm^3"
 
 # plot the results
 #----------------------------------------------------------------------------------------------------------------------------
-import matplotlib.pyplot as plt
 times = np.arange(Ndata)*dt*Ns
 
 plt.plot(times*10**(6), ntransient)
-
+plt.xlabel('Times (us)')
+plt.ylabel('Electron concentration (1/cm^3)')
 plt.show()
