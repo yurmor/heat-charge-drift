@@ -17,8 +17,8 @@ rho = 4.826              # density, g/cm^3
 Cp = 0.3369              # specific heat capacity,  J/(g*K)
 alpha = 0.123            # thermal diffusivity, cm^2/s
 
-R = 10*10**(-4)           # radius of the disk, cm
-nr = 1024                 # number of the radial slices
+R = 10.*10**(-4)         # radius of the disk, cm
+nr = 1024                # number of the radial slices
 
 dr = R/nr                    # delta r
 dr2 = dr**2
@@ -29,7 +29,7 @@ Ndt = 3*10**6            # number of time steps to calculate the solution for
 Ns  = 100                # store the data once in Ns*dt time 
 Ndata = int(Ndt/Ns)          # number of the time steps to store the data for
 
-Tcool = 300              # initial temperature, K. And boundary condition at the edge, e.g. keep the edge at Tcool tempearature 
+Tcool = 300.             # initial temperature, K. And boundary condition at the edge, e.g. keep the edge at Tcool tempearature 
 u0 = np.ones(nr)*Tcool       # initial temperature distribution
 power = 1.                   # total power of the heat source, W
 sigmahs = 0.05*R         # standard deviation of the heat source as a fraction of disk radius 
