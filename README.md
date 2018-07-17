@@ -1,5 +1,5 @@
 # heat-charge-drift
-Examples of solving heat diffusion equation and charge drift-diffusion equations
+Examples of solving heat diffusion and charge drift-diffusion equations
 
 ### Heat diffusion equation
 *disk_heat.py* - disk in polar coordinates with axial symmetry  
