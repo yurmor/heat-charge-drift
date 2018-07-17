@@ -4,11 +4,6 @@ import matplotlib.pyplot as plt
 import time
 
 """
---check r=0 
-
-"""
-
-"""
 Here is an example of solving heat diffusion equation on a uniform cylinder in radial coordinates.
 dT/dt = alpha*del^2(T) + heating/(rho*Cp) (https://en.wikipedia.org/wiki/Heat_equation)
 
@@ -43,14 +38,14 @@ Ndt = 10**4              # number of time steps to calculate the solution for
 Ns  = 100                # store the data once in Ns*dt time 
 Ndata = int(Ndt/Ns)          # number of the time steps to store the data for
 
-T0 = 300                 # initial temperature, K.
-Tside = 300              # boundary condition at the side of the cylinder
-Tbottom = 290            # boundary condition at the bottom surface of the cylinder
-Ttop = 310               # boundary condition at the top surface of the cylinder
+T0 = 300.                # initial temperature, K.
+Tside = 300.             # boundary condition at the side of the cylinder
+Tbottom = 290.           # boundary condition at the bottom surface of the cylinder
+Ttop = 310.              # boundary condition at the top surface of the cylinder
 
 u0 = np.ones((nz, nr))*T0    # initial temperature distribution
 
-power = 100*10**(-3)     # total power of the heat source, W
+power = 1.               # total power of the heat source, W
 sigmahs = 0.1*R          # standard deviation of the heat source as a fraction of cylinder radius 
 
 
