@@ -1,6 +1,10 @@
 # heat-charge-drift
-Examples of solving heat diffusion equation and chrage drift-diffusion equations
+Examples of solving heat diffusion equation and charge drift-diffusion equations
 
-Heat diffusion equation solved on a uniform disk and cylinder in cylidrical coordinates.
+### Heat diffusion equation
+diskheat.py - disk in polar coordinates with axial symmetry
+cylinderheat.py - cylinder in cylindrical coordinates with axial symmetry
 
-Charge drift diffusion equation solved on a disk in cylindrical coordinates. 
+### Charge drift diffusion equation 
+charge_drift_diffusion.py - disk in polar coordinates with axial symmetry
+charge_uniform.py - uniform disk, no spatial dependencies
